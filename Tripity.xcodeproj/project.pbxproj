@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4443723C2DBFF2BB004F7F8A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4443723B2DBFF2B0004F7F8A /* README.md */; };
+		4443723E2DBFF2E5004F7F8A /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		4443721E2DBFEEF5004F7F8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +32,8 @@
 		4443720E2DBFEEF3004F7F8A /* Tripity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tripity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4443721D2DBFEEF5004F7F8A /* TripityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		444372272DBFEEF5004F7F8A /* TripityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4443723B2DBFF2B0004F7F8A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +82,8 @@
 		444372052DBFEEF3004F7F8A = {
 			isa = PBXGroup;
 			children = (
+				4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */,
+				4443723B2DBFF2B0004F7F8A /* README.md */,
 				444372102DBFEEF3004F7F8A /* Tripity */,
 				444372202DBFEEF5004F7F8A /* TripityTests */,
 				4443722A2DBFEEF5004F7F8A /* TripityUITests */,
@@ -212,6 +221,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4443723C2DBFF2BB004F7F8A /* README.md in Resources */,
+				4443723E2DBFF2E5004F7F8A /* CHANGELOG.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
