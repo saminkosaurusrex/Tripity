@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4443723C2DBFF2BB004F7F8A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4443723B2DBFF2B0004F7F8A /* README.md */; };
 		4443723E2DBFF2E5004F7F8A /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */; };
+		44F64D342DC8E5B4009ECA65 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 44F64D332DC8E5B4009ECA65 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		444372272DBFEEF5004F7F8A /* TripityUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4443723B2DBFF2B0004F7F8A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		44F64D332DC8E5B4009ECA65 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -82,6 +84,7 @@
 		444372052DBFEEF3004F7F8A = {
 			isa = PBXGroup;
 			children = (
+				44F64D332DC8E5B4009ECA65 /* LICENSE */,
 				4443723D2DBFF2DA004F7F8A /* CHANGELOG.md */,
 				4443723B2DBFF2B0004F7F8A /* README.md */,
 				444372102DBFEEF3004F7F8A /* Tripity */,
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4443723C2DBFF2BB004F7F8A /* README.md in Resources */,
+				44F64D342DC8E5B4009ECA65 /* LICENSE in Resources */,
 				4443723E2DBFF2E5004F7F8A /* CHANGELOG.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
