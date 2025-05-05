@@ -12,7 +12,9 @@ import SwiftData
 struct TripityApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WeatherView(placeToVisit: "New York", date: "2025-05-06", style: .tripCard)
         }
     }
 }
+
+
