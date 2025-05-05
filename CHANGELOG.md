@@ -1,1 +1,3 @@
 - 28.4.2025: project creation
+- 29.4.2025: app iconset added, 
+- 5.5.2025: colorset added, 
