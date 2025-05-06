@@ -14,6 +14,8 @@ struct WeatherView : View {
     let style: WeatherStyle
     
     var body: some View {
+        
+        
         HStack {
             if let weather = viewModel.weather{
                 Text("\(weather.temperature)")

@@ -10,11 +10,23 @@ import SwiftData
 
 @main
 struct TripityApp: App {
+    // DEBUG for fonts available in APP build
+//    init() {
+//        for family in UIFont.familyNames {
+//            print("Family: \(family)")
+//            for name in UIFont.fontNames(forFamilyName: family) {
+//                print("Font name: \(name)")
+//            }
+//        }
+//    }
+
     var body: some Scene {
         WindowGroup {
-            WeatherView(placeToVisit: "New York", date: "2025-05-06", style: .tripCard)
+            Text("Hello, world!")
+                .font(.custom("SourceSerif4-Regular", size: 20)) // <- až keď vieš názov
         }
     }
 }
+
 
 
