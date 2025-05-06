@@ -32,6 +32,10 @@ struct Temperature: Codable {
     let night: Double
     let evening: Double
     let morning: Double
+    
+    func getAverageTemperature() -> Double {
+        return (min + max) / 2
+    }
 }
 
 struct CloudCover: Codable {
@@ -58,10 +62,10 @@ struct WindSpeed: Codable {
 // logic quiet simple just for demonstration
 extension WeatherResponse{
     enum WeatherIcon: String {
-            case sunny = "sunny_icon"
-            case cloudy = "cloudy_icon"
-            case rainy = "rainy_icon"
-            case windy = "windy_icon"
+            case sunny = "sun.max"
+            case cloudy = "cloud"
+            case rainy = "cloud.rain"
+            case windy = "wind"
     }
     
     func getWeatherIcon() -> WeatherIcon {

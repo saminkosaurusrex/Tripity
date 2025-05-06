@@ -10,7 +10,8 @@ import Combine
 import CoreLocation
 
 class WeatherService {
-    private let apiKey = "10ea405117394a32d372f1c806650028"
+    // weather API key
+    private let apiKey = Secret.openWeatherAPIKey
     
     // Returns latitude and longitude for a location
     func getCoordinates(for city: String) -> AnyPublisher<(CLLocationCoordinate2D, String), Error> {

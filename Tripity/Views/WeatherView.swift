@@ -16,24 +16,32 @@ struct WeatherView : View {
     var body: some View {
         
         
-        HStack {
+        HStack(spacing: 20) {
             if let weather = viewModel.weather{
-                Text("\(weather.temperature)")
-                    //.font(.custom("SourceSerif4", size: style.fontSize))
+                Text(String(format: "%.1f", weather.temperature.getAverageTemperature()) + " °C")
                     .foregroundColor(style.textColor)
+                    .font(.custom("SourceSerif4-Regular", size: 41))
+                Image(systemName: weather.getWeatherIcon().rawValue)
+                    .foregroundColor(style.textColor)
+                    .font(.system(size: 41))
             }else if viewModel.isLoading{
                 ProgressView()
             }else if let error = viewModel.error {
                 Text("Error: \(error.localizedDescription)")
-                //.font(.custom("SourceSerif4", size: style.fontSize))
                 .foregroundColor(style.textColor)
             }
         }
-        .background(style.backgroundColor)
-        .border(style.textColor, width: 2)
+        .padding(.vertical, 25)
+        .padding(.horizontal, 15)
+        .background(style.backgroundColor .opacity(0.7))
+        .cornerRadius(30)
         .onAppear {
             viewModel.loadWeather(for: placeToVisit, date: date)
         }
+        .overlay(
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(style.textColor, lineWidth: 2)
+        )
     }
 }
 
