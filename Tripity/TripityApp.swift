@@ -22,9 +22,10 @@ struct TripityApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Text("Hello, world!")
-                .font(.custom("SourceSerif4-Regular", size: 20)) // <- až keď vieš názov
-        }
+                     //ContentView()
+                     //WeatherView(placeToVisit: "Paris", date: "2025-05-06", style: .tripCard)
+                        PlacesView(city: "Prague",lat: 50.0755, long: 14.4378, radius: 5000)
+                 }
     }
 }
 

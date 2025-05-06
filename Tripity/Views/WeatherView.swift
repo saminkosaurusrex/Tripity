@@ -14,8 +14,6 @@ struct WeatherView : View {
     let style: WeatherStyle
     
     var body: some View {
-        
-        
         HStack(spacing: 20) {
             if let weather = viewModel.weather{
                 Text(String(format: "%.1f", weather.temperature.getAverageTemperature()) + " °C")

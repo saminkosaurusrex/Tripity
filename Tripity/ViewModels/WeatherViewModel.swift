@@ -7,27 +7,35 @@
 import Foundation
 import Combine
 import CoreLocation
+import Foundation
+import Combine
+import CoreLocation
+
 class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherResponse?
-    @Published var isLoading = false
+    @Published var isLoading = false // Indikátor načítania
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
     private let service = WeatherService()
     
     func loadWeather(for city: String, date: String) {
-            service.getCoordinates(for: city)
-                .flatMap { coordinate, timeZone in
-                    self.service.fetchWeather(for: coordinate, date: date, timeZone: timeZone)
+        isLoading = true // Nastavíme loading na true pred začiatkom načítania
+        service.getCoordinates(for: city)
+            .flatMap { coordinate, timeZone in
+                self.service.fetchWeather(for: coordinate, date: date, timeZone: timeZone)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    self.error = error
                 }
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { completion in
-                    if case let .failure(error) = completion {
-                        self.error = error
-                    }
-                }, receiveValue: { weather in
-                    self.weather = weather
-                })
-                .store(in: &cancellables)
-        }
+                self.isLoading = false // Po dokončení načítania nastavíme loading na false
+            }, receiveValue: { weather in
+                self.weather = weather
+                self.isLoading = false // Po úspešnom načítaní nastavíme loading na false
+            })
+            .store(in: &cancellables)
+    }
 }
+

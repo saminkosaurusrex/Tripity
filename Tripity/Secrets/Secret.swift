@@ -18,4 +18,13 @@ struct Secret {
         }
         return key
     }
+    static var placesApiKey: String {
+        guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
+              let xml = FileManager.default.contents(atPath: path),
+              let plist = try? PropertyListSerialization.propertyList(from: xml, format: nil) as? [String: Any],
+              let key = plist["GEOAPIFY"] as? String else {
+            fatalError("Missing GEOAPIFY in Secrets.plist")
+        }
+        return key
+    }
 }
