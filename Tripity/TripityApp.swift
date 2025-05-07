@@ -24,7 +24,9 @@ struct TripityApp: App {
         WindowGroup {
                      //ContentView()
                      //WeatherView(placeToVisit: "Paris", date: "2025-05-06", style: .tripCard)
-                        PlacesView(city: "Prague",lat: 50.0755, long: 14.4378, radius: 5000)
+                        //PlacesView(city: "Prague",lat: 50.0755, long: 14.4378, radius: 5000)
+                    //MainView()
+                    ContentView()
                  }
     }
 }

@@ -5,8 +5,9 @@
 //  Created by Samuel Kundrát on 06/05/2025.
 //
 import Foundation
-struct City {
-    let name: String
-    let latitude: Double
-    let longitude: Double
+struct City: Identifiable, Hashable, Codable {
+    var id = UUID()
+    var name: String
+    var latitude: Double
+    var longitude: Double
 }

@@ -1,23 +1,21 @@
 //
-//  Trip.swift
+//  Place.swift
 //  Tripity
 //
-//  Created by Samuel Kundrát on 05/05/2025.
+//  Created by Samuel Kundrát on 07/05/2025.
 //
 
-import Foundation
+import SwiftData
 
-struct PlacesResponse: Codable {
-    let type: String
-    let features: [Feature]
-    
-    struct Feature: Codable {
-        let properties: Properties
-    }
-    
-    struct Properties: Codable {
-        let name: String?
-        let website: String?
-    }
-}
-
+//@Model
+//class Place{
+//    var name: String
+//    var category: String
+//    var website: String?
+//    
+//    init(name: String, category: String, website: String? = nil) {
+//        self.name = name
+//        self.category = category
+//        self.website = website
+//    }
+//}

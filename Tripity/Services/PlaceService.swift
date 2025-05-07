@@ -33,3 +33,25 @@ struct PlaceService{
                 .eraseToAnyPublisher()
         }
 }
+
+struct GeoService {
+    private let apiKey = Secret.placesApiKey
+    
+    func geocode(city: String) -> AnyPublisher<GeoResponse, Error> {
+        let urlString = "https://api.geoapify.com/v1/geocode/autocomplete?text=\(city.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&apiKey=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+        }
+
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .decode(type: GeoResponse.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
+}

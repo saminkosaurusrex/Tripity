@@ -6,23 +6,26 @@
 //
 
 import Foundation
+import SwiftData
 
-struct TripModel{
-    var city: City
-    var startDate: Date
-    var endDate: Date
-    var transport: String
-    //var placesToVisit: [Place]
-    
-//    init(city: City, startDate: Date, endDate: Date, transport: String, placesToVisit: [Place]) {
-//            self.city = city
-//            self.startDate = startDate
-//            self.endDate = endDate
-//            self.transport = transport
-//            //self.placesToVisit = placesToVisit
-//    }
-    
-    func isValidTrip() -> Bool {
-            return startDate < endDate
-    }
-}
+// swift data model for database
+//@Model
+////class TripModel{
+////    var city: City
+////    var startDate: Date
+////    var endDate: Date
+////    var transport: String
+////    var places: [Place]
+////    
+////    init(city: City, startDate: Date, endDate: Date, transport: String, places: [Place]) {
+////        self.city = city
+////        self.startDate = startDate
+////        self.endDate = endDate
+////        self.transport = transport
+////        self.places = places
+////    }
+////    
+////    func isValidTrip() -> Bool {
+////            return startDate < endDate
+////    }
+////}
