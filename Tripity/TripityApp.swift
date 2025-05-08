@@ -19,15 +19,13 @@ struct TripityApp: App {
 //            }
 //        }
 //    }
-
+    @StateObject private var tripDraft = TripDraft()
     var body: some Scene {
         WindowGroup {
-                     //ContentView()
-                     //WeatherView(placeToVisit: "Paris", date: "2025-05-06", style: .tripCard)
-                        //PlacesView(city: "Prague",lat: 50.0755, long: 14.4378, radius: 5000)
-                    //MainView()
-                    ContentView()
-                 }
+            // Priradíme tripDraft ako environmentObject pre ContentView
+            ContentView()
+                .environmentObject(tripDraft)
+        }
     }
 }
 

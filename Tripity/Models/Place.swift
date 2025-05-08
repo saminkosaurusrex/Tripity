@@ -7,15 +7,15 @@
 
 import SwiftData
 
-//@Model
-//class Place{
-//    var name: String
-//    var category: String
-//    var website: String?
-//    
-//    init(name: String, category: String, website: String? = nil) {
-//        self.name = name
-//        self.category = category
-//        self.website = website
-//    }
-//}
+@Model
+class Place {
+    @Attribute var name: String
+    @Attribute var category: String
+    @Attribute var websiteURL: String
+    
+    init(name: String, category: String, websiteURL: String) {
+            self.name = name
+            self.category = category
+            self.websiteURL = websiteURL
+        }
+}

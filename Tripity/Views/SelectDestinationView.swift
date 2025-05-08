@@ -19,6 +19,7 @@ struct SelectDestinationView: View {
     @Environment(\.dismiss) var dismiss
     @State private var showAlert = false
     @State private var navigate = false
+    @EnvironmentObject var tripDraft: TripDraft
 
 
     var body: some View {
@@ -95,6 +96,9 @@ struct SelectDestinationView: View {
                         if selectedLocationName == nil || selectedLocationName!.isEmpty {
                             showAlert = true
                         } else {
+                            tripDraft.destination = selectedLocationName ?? ""
+                            tripDraft.transport = selectedTransport
+                            tripDraft.radius = sliderValue
                             navigate = true
                         }
                     }) {

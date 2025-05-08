@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var tripDraft: TripDraft
     var body: some View {
         VStack {
             Spacer()

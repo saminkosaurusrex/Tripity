@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var tripDraft: TripDraft
     var body: some View {
         NavigationStack {
             MainView()
