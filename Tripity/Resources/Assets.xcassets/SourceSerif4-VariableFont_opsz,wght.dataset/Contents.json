@@ -1,0 +1,13 @@
+{
+  "data" : [
+    {
+      "filename" : "SourceSerif4-VariableFont_opsz,wght.ttf",
+      "idiom" : "universal",
+      "universal-type-identifier" : "Font"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
