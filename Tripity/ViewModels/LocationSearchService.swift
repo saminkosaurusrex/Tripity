@@ -15,12 +15,12 @@ class LocationSearchService: NSObject, ObservableObject{
             handleSearchFragment(query)
         }
     }
-    
+
     var results: [LocationResult] = []
     var status: searchStatus = .idle
     var completer: MKLocalSearchCompleter
     var selectedCity: City? = nil
-    
+
     init(filter: MKPointOfInterestFilter = .excludingAll,
          region: MKCoordinateRegion = MKCoordinateRegion(.world),
          types: MKLocalSearchCompleter.ResultType = [.pointOfInterest, .query, .address, .address]){
@@ -31,7 +31,7 @@ class LocationSearchService: NSObject, ObservableObject{
         completer.region = region
         completer.resultTypes = types
     }
-    
+
     private func handleSearchFragment(_ fragment: String){
         self.status = .searching
         if(!fragment.isEmpty){
@@ -41,13 +41,18 @@ class LocationSearchService: NSObject, ObservableObject{
             self.results = []
         }
     }
-    
+
     func searchLocation(from result: LocationResult, completion: @escaping (MKMapItem?) -> Void) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = result.title + " " + result.subtitle
         let search = MKLocalSearch(request: request)
 
         search.start { response, error in
+            if let error = error {
+                        print("Error searching location: \(error)")
+                        completion(nil)
+                        return
+            }
             if let item = response?.mapItems.first {
                 let coordinate = item.placemark.coordinate
                 self.selectedCity = City(
@@ -62,7 +67,7 @@ class LocationSearchService: NSObject, ObservableObject{
             }
         }
     }
-    
+
 }
 
 extension LocationSearchService: MKLocalSearchCompleterDelegate{
@@ -73,7 +78,7 @@ extension LocationSearchService: MKLocalSearchCompleterDelegate{
             })
         self.status = .result
     }
-    
+
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: any Error) {
         self.status = .error(error.localizedDescription)
     }
