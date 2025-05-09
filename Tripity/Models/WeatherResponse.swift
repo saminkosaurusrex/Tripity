@@ -83,4 +83,8 @@ extension WeatherResponse{
             }
         return .sunny
     }
+    
+    func getAverageTemperature() -> Double {
+        return temperature.getAverageTemperature()
+    }
 }

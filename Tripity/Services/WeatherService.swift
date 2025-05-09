@@ -10,6 +10,8 @@ import Combine
 import CoreLocation
 
 class WeatherService {
+    private var cancellables = Set<AnyCancellable>()
+
     // weather API key
     private let apiKey = Secret.openWeatherAPIKey
     
@@ -63,6 +65,21 @@ class WeatherService {
             }
             .eraseToAnyPublisher()
     }
+    
+    func fetchWeatherAsync(for coordinate: CLLocationCoordinate2D, date: String, timeZone: String) async throws -> WeatherResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            fetchWeather(for: coordinate, date: date, timeZone: timeZone)
+                .sink(receiveCompletion: { completion in
+                    if case let .failure(error) = completion {
+                        continuation.resume(throwing: error)
+                    }
+                }, receiveValue: { response in
+                    continuation.resume(returning: response)
+                })
+                .store(in: &self.cancellables)
+        }
+    }
+
 }
 
 // Error handling

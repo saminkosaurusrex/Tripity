@@ -16,4 +16,7 @@ class TripDraft: ObservableObject {
     @Published var endDate: Date?
     @Published var weather: WeatherModel?
     @Published var places: [Place] = []
+    // set for Brno Czech republic
+    @Published var longtitude: Double = 49.19522
+    @Published var latitude: Double = 16.60796
 }

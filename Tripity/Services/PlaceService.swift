@@ -7,10 +7,11 @@
 import Foundation
 import Combine
 
-struct PlaceService{
+class PlaceService{
+    private var cancellables = Set<AnyCancellable>()
     private let apiKey = Secret.placesApiKey
     private let baseUrl = "https://api.geoapify.com/v2/places?categories=tourism&filter=circle:"
-    func fetchPlaces(forCity city: String, latitude: Double, longitude: Double, radius: Int) -> AnyPublisher<[PlacesResponse.Feature], Error> {
+    func fetchPlaces(forCity city: String, latitude: Double, longitude: Double, radius: Double) -> AnyPublisher<[PlacesResponse.Feature], Error> {
             let urlString = "\(baseUrl)\(longitude),\(latitude),\(radius)&limit=20&apiKey=\(apiKey)"
         
         print(urlString)
@@ -31,7 +32,20 @@ struct PlaceService{
                     response.features
                 }
                 .eraseToAnyPublisher()
-        }
+    }
+    func fetchPlacesAsync(forCity city: String, latitude: Double, longitude: Double, radius: Double) async throws -> [PlacesResponse.Feature] {
+            return try await withCheckedThrowingContinuation { continuation in
+                fetchPlaces(forCity: city, latitude: latitude, longitude: longitude, radius: radius)
+                    .sink(receiveCompletion: { completion in
+                        if case let .failure(error) = completion {
+                            continuation.resume(throwing: error)
+                        }
+                    }, receiveValue: { places in
+                        continuation.resume(returning: places)
+                    })
+                    .store(in: &self.cancellables)
+            }
+    }
 }
 
 struct GeoService {

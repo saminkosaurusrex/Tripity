@@ -15,7 +15,7 @@ class PlacesViewModel: ObservableObject {
     
     private let service = PlaceService()
     
-    func fetchPlaces(forCity city: String, latitude: Double, longitude: Double, radius: Int) {
+    func fetchPlaces(forCity city: String, latitude: Double, longitude: Double, radius: Double) {
         isLoading = true
         service.fetchPlaces(forCity: city, latitude: latitude, longitude: longitude, radius: radius)
             .receive(on: DispatchQueue.main)

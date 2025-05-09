@@ -16,6 +16,8 @@ struct SelectDestinationView: View {
     @State private var selectedTransport: TransportMode = .car
     @State private var sliderValue: Double = 2000
     @FocusState private var isSearchFocused: Bool
+    @State var longtitude : Double = 49.19522
+    @State var latitude : Double = 16.60796
     @Environment(\.dismiss) var dismiss
     @State private var showAlert = false
     @State private var navigate = false
@@ -99,7 +101,10 @@ struct SelectDestinationView: View {
                             tripDraft.destination = selectedLocationName ?? ""
                             tripDraft.transport = selectedTransport
                             tripDraft.radius = sliderValue
+                            tripDraft.latitude = latitude
+                            tripDraft.longtitude = longtitude
                             navigate = true
+                            print("Destination: \( tripDraft.destination)\n Transport: \( tripDraft.transport)\n Radius: \( tripDraft.radius)\n Latitude: \( tripDraft.latitude)\n Longtitude: \( tripDraft.longtitude)")
                         }
                     }) {
                         Text("Start date")
@@ -158,6 +163,11 @@ struct SelectDestinationView: View {
                                     query = ""
                                     vm.results = []
                                     isSearchFocused = false
+                                    
+                                    if let city = vm.selectedCity {
+                                        latitude = city.latitude
+                                        longtitude = city.longitude
+                                    }
                                 }
                             } label: {
                                 VStack(alignment: .leading) {
