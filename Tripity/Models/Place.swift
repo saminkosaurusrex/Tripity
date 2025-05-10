@@ -12,6 +12,7 @@ class Place {
     @Attribute var name: String
     @Attribute var category: String
     @Attribute var websiteURL: String
+    @Attribute var isVisited: Bool = false
     
     init(name: String, category: String, websiteURL: String) {
             self.name = name

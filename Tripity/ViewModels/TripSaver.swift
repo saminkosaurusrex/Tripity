@@ -13,7 +13,7 @@ import CoreLocation
 struct TripSaver {
     
     
-    static func save(from draft: TripDraft, modelContext: ModelContext) async throws {
+    static func save(from draft: TripDraft, modelContext: ModelContext) async throws -> TripModel {
         // 1. Fetch weather
         let coordinate = CLLocationCoordinate2D(latitude: draft.latitude, longitude: draft.longtitude)
         let dateFormatter = DateFormatter()
@@ -46,6 +46,9 @@ struct TripSaver {
         let placeModels = fetchedPlaces.map {
             Place(name: $0.properties.name ?? "Unknown", category: "sight", websiteURL: $0.properties.website ?? "")
         }
+        for (index, place) in placeModels.enumerated() {
+            print("📍 Place \(index): name = \(place.name), category = \(place.category), website = \(place.websiteURL)")
+        }
         placeModels.forEach { modelContext.insert($0) }
 
         // 3. Vytvor TripModel
@@ -61,6 +64,7 @@ struct TripSaver {
 
         // 4. Save to SwiftData
         try modelContext.save()
+        return trip
     }
     
     static func formattedTimeZoneOffset() -> String {

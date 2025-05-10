@@ -8,6 +8,7 @@ import SwiftData
 @Model
 class WeatherModel {
     @Attribute var temperature: Double
+    //holds string for icon as well
     @Attribute var conditions: String
     
     // Inicializátor pre WeatherModel

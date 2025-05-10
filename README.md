@@ -39,3 +39,4 @@ Tripity/
 ├── TripityApp.swift         # Hlavný bod aplikácie, spúšťa aplikáciu
 └── ContentView.swift        # Počiatočná obrazovka aplikácie
 
+name by : Mario Horvath
