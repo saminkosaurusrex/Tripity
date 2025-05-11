@@ -8,25 +8,32 @@
 import SwiftUI
 import MapKit
 import SwiftData
+import CoreLocation
 
 struct TripDetail: View {
     let trip: TripModel
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @State private var visitedPlaces: Set<String> = []
     
     @State private var isEditing = false
-
-
     @State private var showDeleteConfirmation = false
     @State private var showDeletedAlert = false
+    @State private var isUpdatingWeather = false
+    @State private var weatherUpdateError: String? = nil
+    @State private var showWeatherAlert = false
 
     private var compactDateFormatter: DateFormatter {
         let df = DateFormatter()
         df.dateFormat = "d. MMMM yyyy"
         return df
     }
-
+    
+    // Check if weather data is outdated (more than 3 hours old)
+    private var isWeatherOutdated: Bool {
+        let threeHoursAgo = Date().addingTimeInterval(-10800) // 3 hours in seconds
+        return trip.weather.lastUpdated < threeHoursAgo
+    }
+    
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea()
@@ -87,10 +94,34 @@ struct TripDetail: View {
                     }
                     .foregroundColor(.black)
                 )
+                
+                // Weather update information and refresh button
+                HStack {
+                    Text("Weather updated: \(formattedWeatherUpdateTime)")
+                        .font(.custom("SourceSerif4-Regular", size: 12))
+                        .foregroundColor(.gray)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        Task {
+                            await updateWeather()
+                        }
+                    }) {
+                        Image(systemName: isUpdatingWeather ? "arrow.triangle.2.circlepath" : "arrow.clockwise")
+                            .font(.system(size: 14))
+                            .foregroundColor(.black)
+                            .rotationEffect(isUpdatingWeather ? .degrees(360) : .degrees(0))
+                            .animation(isUpdatingWeather ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isUpdatingWeather)
+                    }
+                    .disabled(isUpdatingWeather)
+                }
+                .padding(.horizontal)
+                .padding(.top, 4)
 
                 Text("Places to visit")
                     .font(.custom("SourceSerif4-Regular", size: 30))
-                    .padding(.top, 20)
+                    .padding(.top, 12)
 
                 ScrollView {
                     if trip.places.isEmpty {
@@ -101,7 +132,6 @@ struct TripDetail: View {
                     } else {
                         VStack(spacing: 12) {
                             ForEach(trip.places) { place in
-                                let isVisited = visitedPlaces.contains(place.name)
                                 let urlString = place.websiteURL.isEmpty ?
                                     "https://www.google.com/search?q=\(place.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")" :
                                     place.websiteURL
@@ -121,15 +151,21 @@ struct TripDetail: View {
 
                                     HStack {
                                         Button(action: {
-                                            if isVisited {
-                                                visitedPlaces.remove(place.name)
-                                            } else {
-                                                visitedPlaces.insert(place.name)
-                                            }
+                                            place.isVisited.toggle()
+                                            try? context.save()
                                         }) {
                                             Circle()
-                                                .fill(Color.red.opacity(0.7))
+                                                .fill(place.isVisited ? Color.green.opacity(0.7) : Color.red.opacity(0.7))
                                                 .frame(width: 20, height: 20)
+                                                .overlay(
+                                                    Group {
+                                                        if place.isVisited {
+                                                            Image(systemName: "checkmark")
+                                                                .font(.system(size: 12))
+                                                                .foregroundColor(.white)
+                                                        }
+                                                    }
+                                                )
                                         }
                                         .zIndex(1)
 
@@ -211,30 +247,89 @@ struct TripDetail: View {
                 dismiss()
             }
         }
+        .alert(weatherUpdateError != nil ? "Actualization error" : "Weather updated", isPresented: $showWeatherAlert) {
+            Button("OK") { }
+        } message: {
+            if let error = weatherUpdateError {
+                Text(error)
+            } else {
+                Text("Weather for  \(trip.destination) updated.")
+            }
+        }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $isEditing) {
             TripEditView(trip: trip)
+                .presentationDetents([.height(300)])
+                
+        }
+        .task {
+            // Check if weather needs updating when view appears
+            if isWeatherOutdated {
+                await updateWeather()
+            }
         }
     }
+    
+    // Format weather update time
+    private var formattedWeatherUpdateTime: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: trip.weather.lastUpdated)
+    }
+    
+    // Update weather data using existing WeatherService
+    // Update weather data using existing WeatherService
+    private func updateWeather() async {
+        // Prevent multiple concurrent updates
+        guard !isUpdatingWeather else { return }
+        
+        isUpdatingWeather = true
+        weatherUpdateError = nil
+        
+        do {
+            // Create coordinate from trip data
+            let coordinate = CLLocationCoordinate2D(latitude: trip.latitude, longitude: trip.longtitude)
+            
+            // Get the trip's start date as string instead of current date
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateFormatter.string(from: trip.startDate)
+            
+            // Create weather service and fetch weather
+            let weatherService = WeatherService()
+            let weatherResponse = try await weatherService.fetchWeatherAsync(
+                for: coordinate,
+                date: dateString,
+                timeZone: trip.timezone
+            )
+            
+            // Update the trip's weather with new data
+            let avgTemp = weatherResponse.getAverageTemperature()
+            let icon = weatherResponse.getWeatherIcon().rawValue
+            
+            // Update the model
+            trip.weather.temperature = avgTemp
+            trip.weather.conditions = icon
+            trip.weather.lastUpdated = Date()
+            
+            // Save changes
+            try context.save()
+            
+            // Show success alert
+            await MainActor.run {
+                showWeatherAlert = true
+            }
+            
+        } catch {
+            print("Failed to update weather: \(error.localizedDescription)")
+            await MainActor.run {
+                weatherUpdateError = "Could not update the weather: \(error.localizedDescription)"
+                showWeatherAlert = true
+            }
+        }
+        
+        // Reset updating state
+        isUpdatingWeather = false
+    }
 }
-
-//#Preview {
-//    let weatherModel = WeatherModel(temperature: 22.5, conditions: "sun.max.fill")
-//    let places = [
-//        Place(name: "Prague Castle", category: "sight", websiteURL: "https://www.hrad.cz/en/prague-castle-for-visitors"),
-//        Place(name: "Charles Bridge", category: "sight", websiteURL: "https://www.prague.eu/en/object/places/93/charles-bridge-karluv-most"),
-//        Place(name: "Old Town Square", category: "sight", websiteURL: "https://www.prague.eu/en/object/places/183/old-town-square-staromestske-namesti")
-//    ]
-//
-//    let sampleTrip = TripModel(
-//        destination: "Prague",
-//        transport: "plane",
-//        startDate: Date(),
-//        endDate: Date().addingTimeInterval(86400 * 5),
-//        weather: weatherModel,
-//        places: places
-//    )
-//
-//    return TripDetail(trip: sampleTrip)
-//        .modelContainer(for: TripModel.self)
-//}

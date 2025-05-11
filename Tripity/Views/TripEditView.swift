@@ -43,34 +43,21 @@ struct TripEditView: View {
             }
             .navigationTitle("Edit Trip")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        // Tu nič netreba, trip je @Bindable, zmeny sa uložia automaticky
-                        dismiss()
+            
+            .onChange(of: trip.startDate) { oldValue, newValue in
+                Task {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                    let dateString = dateFormatter.string(from: newValue)
+                    do {
+                        let newWeather = try await weatherService.fetchWeatherAsync(for: trip.coordinate, date: dateString, timeZone: trip.timezone)
+                        trip.weather.temperature = newWeather.temperature.getAverageTemperature()
+                        trip.weather.conditions = newWeather.getWeatherIcon().rawValue
+                    } catch {
+                        print("❌ Error fetching weather: \(error)")
                     }
                 }
             }
-//            .onChange(of: trip.startDate) { oldValue, newValue in
-//                Task {
-//                    let dateFormatter = DateFormatter()
-//                    dateFormatter.dateFormat = "yyyy-MM-dd"
-//                    let dateString = dateFormatter.string(from: newValue)
-//                    do {
-//                        let newWeather = try await weatherService.fetchWeatherAsync(for: trip.coordinate, date: dateString, timeZone: trip.timezone)
-//                        trip.weather.temperature = newWeather.temperature.getAverageTemperature()
-//                        trip.weather.conditions = newWeather.getWeatherIcon().rawValue
-//                    } catch {
-//                        print("❌ Error fetching weather: \(error)")
-//                    }
-//                }
-//            }
         }
     }
 }

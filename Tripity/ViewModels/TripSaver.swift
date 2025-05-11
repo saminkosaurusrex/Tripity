@@ -58,7 +58,11 @@ struct TripSaver {
             startDate: draft.startDate ?? Date(),
             endDate: draft.endDate ?? Date(),
             weather: weatherModel,
-            places: placeModels
+            places: placeModels,
+            latitude: draft.latitude,
+            longtitude: draft.longtitude,
+            timezone: formattedTimeZoneOffset()
+            
         )
         modelContext.insert(trip)
 
