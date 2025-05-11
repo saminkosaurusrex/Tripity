@@ -1,42 +1,51 @@
 # Tripity
+* This product is final project for IZA at Faculty of Information Technology Brno University of Technology
+* **Author**: Samuel Kundrát
+* **Language**: Swift
+* **API used**: geoapify, OpenWeatherMap
+
 ### Description
-Trip planner app
+Tripity is a lightweight iOS travel planning app built using SwiftUI, SwiftData, and Combine. It allows users to create and manage trips by selecting destinations, travel dates, and transportation modes. The app automatically fetches weather data for the selected location and dates using OpenWeatherMap's API. App includes deature for places to visit suggestions with geoapify.com API.
 
-This product is final project for IZA at Faculty of Information Technology Brno University of Technology
+#### Features
+* Create and edit trips with start/end dates and transport options
 
-app struct:
+* Automatic weather fetching for trip dates and destination
 
-Tripity/
-│
-├── Models/                  # Priečinok pre dátové modely
-│   └── TripModel.swift       # Model výletu (Trip)
-|   |---Place,swift
-│
-├── ViewModels/              # Priečinok pre ViewModely
-│   └── TripViewModel.swift  # ViewModel pre Trip
-│
-├── Views/                   # Priečinok pre Views (obrazovky)
-│   ├── WhereView.swift       # Obrazovka "Where" - výber spôsobu prepravy
-│   ├── FromView.swift        # Obrazovka "From" - výber miesta odchodu
-│   ├── ToView.swift          # Obrazovka "To" - výber cieľového miesta
-│   ├── DateView.swift        # Obrazovka "Date" - výber dátumov
-│   ├── TripCardView.swift    # Zobrazenie karty tripu na hlavnej obrazovke
-│   └── TripDetailView.swift  # Detail výletu (zobrazenie miesta, počasia, atrakcií a dátumov)
-│
-├── Services/                # Priečinok pre služby (API, uloženie dát, atď.)
-│   └── WeatherService.swift  # Služba na získanie počasia z API
-│   └── PhotoService.swift    # Služba na získanie fotiek miest z API
-│   └── LocationService.swift # Služba na získanie miest na návštevu z API
-│
-├── Resources/               # Priečinok pre statické zdroje (obrázky, assets)
-│   ├── Assets.xcassets      # Assety (ikony, obrázky, atď.)
-│   └── Localizable.strings  # Preklady pre lokalizácie aplikácie
-│
-├── Utilities/               # Priečinok pre pomocné funkcie
-│   └── DateFormatter.swift  # Pomocná trieda na formátovanie dátumov
-│   └── Extensions.swift     # Rozšírenia pre bežné Swift funkcie
-│
-├── TripityApp.swift         # Hlavný bod aplikácie, spúšťa aplikáciu
-└── ContentView.swift        # Počiatočná obrazovka aplikácie
+* Places to visit suggestions
 
+* SwiftData-powered offline data storage
+
+* Modular architecture using MVVM + Combine
+
+
+
+
+# App
+
+## Main Screen With no Trips
+![Main](./media/empty.png)
+
+##  Main Screen With Trips
+![Intro](./media/main.png)
+
+## Trip Creation
+### Trip info
+![Intro](./media/create.png)
+
+### Date from
+![Intro](./media/from.png)
+
+### Date to
+![Intro](./media/to.png)
+
+## Trip Detail
+![Intro](./media/detail.png)
+
+## Trip Edit
+![Intro](./media/edit.png)
+
+
+
+### Credits
 name by : Mario Horvath
