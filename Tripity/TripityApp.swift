@@ -2,7 +2,7 @@
 //  TripityApp.swift
 //  Tripity
 //
-//  Created by Samuel Kundrát on 28/04/2025.
+//  Created by Samuel Kundrát on 07/05/2025.
 //
 
 import SwiftUI
@@ -10,20 +10,26 @@ import SwiftData
 
 @main
 struct TripityApp: App {
-    let container = try! ModelContainer(
-            for: Place.self,
-                 WeatherModel.self,
-                 TripModel.self
-        )
+    // Create a SwiftData model container
+    let modelContainer: ModelContainer
+    
+    // Shared instance of TripDraft for the app
     @StateObject private var tripDraft = TripDraft()
-    var body: some Scene {
-        WindowGroup {
-            // Priradíme tripDraft ako environmentObject pre ContentView
-            ContentView()
-                .environmentObject(tripDraft)
+    
+    init() {
+        do {
+            // Configure the model container with all required model types
+            modelContainer = try ModelContainer(for: TripModel.self, WeatherModel.self, Place.self)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
         }
     }
+    
+    var body: some Scene {
+        WindowGroup {
+            MainView()
+                .environmentObject(tripDraft)
+        }
+        .modelContainer(modelContainer) // <- This is crucial for @Query to work
+    }
 }
-
-
-
