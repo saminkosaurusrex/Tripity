@@ -18,9 +18,22 @@ Tripity is a lightweight iOS travel planning app built using SwiftUI, SwiftData,
 
 * Modular architecture using MVVM + Combine
 
+# Usage
+[ Take a trip ] -> [Trip information](#trip-info)
 
+[ Start date] -> [Trip start date](#date-from)
 
+[ End date] -> [Trip end date](#date-to)
 
+[ Set trip ] -> [Trip detail](#trip-detail)
+
+[ Edit ] -> [Edit trip](#trip-edit)
+
+[ Home ] -> [Trips overview](#main-screen-with-trips)
+
+[ Delete ] -> [Trips overview](#main-screen-with-trips)
+
+click on trip card -> [Trip detail](#trip-detail)
 # App
 
 ## Main Screen With no Trips
@@ -31,19 +44,19 @@ Tripity is a lightweight iOS travel planning app built using SwiftUI, SwiftData,
 
 ## Trip Creation
 ### Trip info
-![Intro](./media/create.png)
+![Info](./media/create.png)
 
 ### Date from
-![Intro](./media/from.png)
+![Date from](./media/from.png)
 
 ### Date to
-![Intro](./media/to.png)
+![Date to](./media/to.png)
 
 ## Trip Detail
-![Intro](./media/detail.png)
+![Detail](./media/detail.png)
 
 ## Trip Edit
-![Intro](./media/edit.png)
+![Edit](./media/edit.png)
 
 
 
