@@ -1,4 +1,4 @@
-//
+//  Model for Place object
 //  Place.swift
 //  Tripity
 //

@@ -1,4 +1,4 @@
-//
+//  API key getters from secrets
 //  Secret.swift
 //  Tripity
 //

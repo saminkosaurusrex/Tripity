@@ -26,13 +26,13 @@ struct SelectDestinationView: View {
 
     var body: some View {
         ZStack {
-            // Hlavný obsah obrazovky
             VStack(spacing: 16) {
                 Spacer()
                 Text("WHERE?")
                     .font(.custom("SourceSerif4-Regular", size: 45))
 
                 VStack(spacing: 4) {
+                    // search bar for trip destination
                     TextField(selectedLocationName ?? "Search for a destination...", text: $query)
                         .focused($isSearchFocused)
                         .multilineTextAlignment(.center)
@@ -56,6 +56,7 @@ struct SelectDestinationView: View {
                 Text("HOW?")
                     .font(.custom("SourceSerif4-Regular", size: 45))
 
+                // Trnasport seelction
                 Picker("Transport", selection: $selectedTransport) {
                     ForEach(TransportMode.allCases) { mode in
                         Text(mode.rawValue)
@@ -66,11 +67,13 @@ struct SelectDestinationView: View {
                 .padding(.horizontal)
                 Spacer()
 
-                Text("VISIT RADIUS?")
+                Text("PLACES TO VISIT RADIUS?")
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .font(.custom("SourceSerif4-Regular", size: 45))
-
+                    . padding()
+                
+                // slider for visit radius
                 Slider(value: $sliderValue, in: 1000...20000, step: 100)
                     .padding(.horizontal)
 
@@ -82,6 +85,7 @@ struct SelectDestinationView: View {
                 Spacer()
                 
                 HStack {
+                    //back button
                     Button(action: {
                         dismiss()
                     }) {
@@ -126,7 +130,7 @@ struct SelectDestinationView: View {
             .blur(radius: !query.isEmpty ? 3 : 0)
             .animation(.easeInOut(duration: 0.25), value: query)
 
-            // Overlay so zoznamom výsledkov
+            // Overlay for search
             if !query.isEmpty {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
@@ -152,7 +156,6 @@ struct SelectDestinationView: View {
                             .padding(.horizontal, 5)
                     }
                     .padding(.top, 15)
-                    //Spacer().frame(height: 120) // posun pod text field
 
                     List {
                         ForEach(vm.results) { result in

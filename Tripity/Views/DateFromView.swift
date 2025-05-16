@@ -1,4 +1,4 @@
-//
+//  View for screen to pick startDate
 //  DateFromView.swift
 //  Tripity
 //
@@ -18,7 +18,7 @@ struct DateFromView: View {
     var body: some View {
         ZStack {
             Color.background
-                .ignoresSafeArea() // Natiahne farbu na celú obrazovku
+                .ignoresSafeArea()
             
             VStack {
                 Spacer()

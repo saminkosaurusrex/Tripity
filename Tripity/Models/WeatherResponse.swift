@@ -1,4 +1,4 @@
-//
+//  Model for API response from weather API
 //  Weather.swift
 //  Tripity
 //
@@ -59,7 +59,6 @@ struct WindSpeed: Codable {
     let direction: Double
 }
 
-// logic quiet simple just for demonstration
 extension WeatherResponse{
     enum WeatherIcon: String {
             case sunny = "sun.max"

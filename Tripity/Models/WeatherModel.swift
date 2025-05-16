@@ -1,4 +1,4 @@
-//
+//  Model for weather for each trip
 //  WeatherModel.swift
 //  Tripity
 //
@@ -9,11 +9,10 @@ import Foundation
 @Model
 class WeatherModel {
     @Attribute var temperature: Double
-    //holds string for icon as well
+    //holds string for icon
     @Attribute var conditions: String
     @Attribute var lastUpdated: Date
     
-    // Inicializátor pre WeatherModel
     init(temperature: Double, conditions: String) {
         self.temperature = temperature
         self.conditions = conditions

@@ -31,8 +31,9 @@ struct TripSaver {
         let weatherModel = WeatherModel(temperature: avgTemp, conditions: icon)
         modelContext.insert(weatherModel)
         
-        print("🌤 WeatherModel — temperature: \(weatherModel.temperature)°, conditions: \(weatherModel.conditions)")
-        dump(weatherModel)
+        //debugs
+        // print("🌤 WeatherModel — temperature: \(weatherModel.temperature)°, conditions: \(weatherModel.conditions)")
+        //dump(weatherModel)
 
         // 2. Fetch places
         let placeService = PlaceService()
@@ -46,12 +47,10 @@ struct TripSaver {
         let placeModels = fetchedPlaces.map {
             Place(name: $0.properties.name ?? "Unknown", category: "sight", websiteURL: $0.properties.website ?? "")
         }
-        for (index, place) in placeModels.enumerated() {
-            print("📍 Place \(index): name = \(place.name), category = \(place.category), website = \(place.websiteURL)")
-        }
+
         placeModels.forEach { modelContext.insert($0) }
 
-        // 3. Vytvor TripModel
+        // 3. TripModel creation
         let trip = TripModel(
             destination: draft.destination,
             transport: draft.transport.rawValue,
@@ -71,6 +70,7 @@ struct TripSaver {
         return trip
     }
     
+    //helper function for timezone formmating for later api usage
     static func formattedTimeZoneOffset() -> String {
         let seconds = TimeZone.current.secondsFromGMT()
         let sign = seconds >= 0 ? "+" : "-"

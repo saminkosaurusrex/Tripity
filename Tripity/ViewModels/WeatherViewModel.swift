@@ -1,4 +1,4 @@
-//
+//  Development viewModel for weather
 //  WeatherViewModel.swift
 //  Tripity
 //
@@ -13,14 +13,14 @@ import CoreLocation
 
 class WeatherViewModel: ObservableObject {
     @Published var weather: WeatherResponse?
-    @Published var isLoading = false // Indikátor načítania
+    @Published var isLoading = false 
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
     private let service = WeatherService()
     
     func loadWeather(for city: String, date: String) {
-        isLoading = true // Nastavíme loading na true pred začiatkom načítania
+        isLoading = true
         service.getCoordinates(for: city)
             .flatMap { coordinate, timeZone in
                 self.service.fetchWeather(for: coordinate, date: date, timeZone: timeZone)
@@ -30,10 +30,10 @@ class WeatherViewModel: ObservableObject {
                 if case let .failure(error) = completion {
                     self.error = error
                 }
-                self.isLoading = false // Po dokončení načítania nastavíme loading na false
+                self.isLoading = false
             }, receiveValue: { weather in
                 self.weather = weather
-                self.isLoading = false // Po úspešnom načítaní nastavíme loading na false
+                self.isLoading = false
             })
             .store(in: &cancellables)
     }

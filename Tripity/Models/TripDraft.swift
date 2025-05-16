@@ -1,4 +1,4 @@
-//
+//  Draft model for trip creation, later transfered to Trip
 //  TripDraft.swift
 //  Tripity
 //

@@ -13,6 +13,7 @@ struct MainView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var trips: [TripModel]
     
+    
     // Date formatter for displaying dates in DD.MM. YYYY format
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -70,7 +71,7 @@ struct MainView: View {
     }
 }
 
-// Trip card view styled like the screenshot
+// Trip card view
 struct TripCardView: View {
     let trip: TripModel
     
@@ -83,7 +84,6 @@ struct TripCardView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // This would be a background image in the future
             Rectangle()
                 .fill(Color(red: 69 / 255, green: 58 / 255, blue: 73 / 255))
                 .frame(width: 300, height: 600)
@@ -164,10 +164,6 @@ struct TripCardView: View {
             return "airplane"
         case "train":
             return "tram.fill"
-        case "bus":
-            return "bus.fill"
-        case "boat":
-            return "ferry.fill"
         default:
             return "figure.walk"
         }

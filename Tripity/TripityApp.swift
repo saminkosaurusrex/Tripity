@@ -30,6 +30,6 @@ struct TripityApp: App {
             MainView()
                 .environmentObject(tripDraft)
         }
-        .modelContainer(modelContainer) // <- This is crucial for @Query to work
+        .modelContainer(modelContainer)
     }
 }

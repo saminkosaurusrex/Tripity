@@ -1,4 +1,4 @@
-//
+//  Model for geocoding result
 //  GeoResponse.swift
 //  Tripity
 //

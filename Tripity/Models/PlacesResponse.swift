@@ -1,4 +1,4 @@
-//
+//  Map model ofr response from API places
 //  Trip.swift
 //  Tripity
 //

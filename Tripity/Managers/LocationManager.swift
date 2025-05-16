@@ -20,24 +20,21 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     override init() {
         super.init()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters // optional, na zlepšenie presnosti
-        locationManager.distanceFilter = 10 // optional, len ak sa poloha zmení o viac ako 10 metrov, dostaneš update
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = 10 // updete for location difference more than 10 meters
         
-        // Kontrola, či máš povolenie na používanie polohy
+        //services chacker
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestWhenInUseAuthorization() // požiadať o prístup k lokalite
             locationManager.startUpdatingLocation() // začať aktualizovať lokalitu
         } else {
-            // Správa o tom, že lokalizačné služby sú vypnuté
             print("Location services are not enabled.")
         }
     }
     
-    // Ak sa aktualizuje lokalita, nastaví novú hodnotu pre region
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else { return }
         
-        // Uistíme sa, že aktualizujeme region len keď sa poloha zmení
         if region.center.latitude != newLocation.coordinate.latitude ||
             region.center.longitude != newLocation.coordinate.longitude {
             region = MKCoordinateRegion(

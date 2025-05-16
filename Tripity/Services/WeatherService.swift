@@ -1,4 +1,4 @@
-//
+//  service for weather API
 //  WeatherService.swift
 //  Tripity
 //
@@ -49,8 +49,7 @@ class WeatherService {
         //tz MUST be in url
         let urlString = "https://api.openweathermap.org/data/3.0/onecall/day_summary?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&date=\(date)&tz=\(timeZone)&appid=\(apiKey)&units=metric"
         
-        print(urlString)
-        //https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={API key}
+        //  print(urlString)
         
         guard let url = URL(string: urlString) else {
             return Fail(error: WeatherServiceError.invalidURL).eraseToAnyPublisher()
@@ -66,6 +65,7 @@ class WeatherService {
             .eraseToAnyPublisher()
     }
     
+    // Async version for sink of fetch
     func fetchWeatherAsync(for coordinate: CLLocationCoordinate2D, date: String, timeZone: String) async throws -> WeatherResponse {
         return try await withCheckedThrowingContinuation { continuation in
             fetchWeather(for: coordinate, date: date, timeZone: timeZone)

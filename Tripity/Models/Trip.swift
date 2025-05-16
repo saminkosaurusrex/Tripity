@@ -1,4 +1,4 @@
-//
+//  Whole swiftData model for trip
 //  TripModel.swift
 //  Tripity
 //
@@ -33,7 +33,7 @@ class TripModel {
         self.timezone = timezone
     }
     
-    // compoted property for location
+    // computed property for location
     var coordinate: CLLocationCoordinate2D {
             CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
     }

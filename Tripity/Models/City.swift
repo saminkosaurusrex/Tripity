@@ -1,4 +1,4 @@
-//
+//  Data model for City object
 //  City.swift
 //  Tripity
 //

@@ -1,4 +1,4 @@
-//
+//  
 //  MainViewModel.swift
 //  Tripity
 //
@@ -19,6 +19,7 @@ class MainViewModel: ObservableObject {
         self.context = context
     }
 
+    // loads all trips from swiftData local database
     func loadTrips() {
         do {
             let descriptor = FetchDescriptor<TripModel>(sortBy: [SortDescriptor(\.startDate, order: .reverse)])

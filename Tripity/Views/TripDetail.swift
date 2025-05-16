@@ -21,7 +21,7 @@ struct TripDetail: View {
     @State private var isUpdatingWeather = false
     @State private var weatherUpdateError: String? = nil
     @State private var showWeatherAlert = false
-
+    @State private var navigateToRoot = false
     private var compactDateFormatter: DateFormatter {
         let df = DateFormatter()
         df.dateFormat = "d. MMMM yyyy"
@@ -39,13 +39,15 @@ struct TripDetail: View {
             Color.background.ignoresSafeArea()
 
             VStack {
+                //destination
                 Text(trip.destination)
                     .font(.custom("SourceSerif4-Regular", size: 55))
                     .foregroundColor(.black)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(0.4)
 
                 HStack(spacing: 0) {
+                    // weather
                     HStack {
                         Text("\(String(format: "%.0f", trip.weather.temperature))°C")
                             .font(.custom("SourceSerif4-Regular", size: 40))
@@ -69,6 +71,7 @@ struct TripDetail: View {
                         alignment: .trailing
                     )
 
+                    // date
                     VStack {
                         Text("\(compactDateFormatter.string(from: trip.startDate))")
                             .font(.custom("SourceSerif4-Regular", size: 40))
@@ -119,6 +122,7 @@ struct TripDetail: View {
                 .padding(.horizontal)
                 .padding(.top, 4)
 
+                // palces to visit
                 Text("Places to visit")
                     .font(.custom("SourceSerif4-Regular", size: 30))
                     .padding(.top, 12)
@@ -132,6 +136,7 @@ struct TripDetail: View {
                     } else {
                         VStack(spacing: 12) {
                             ForEach(trip.places) { place in
+                                // if not url provided by API - create url to find place
                                 let urlString = place.websiteURL.isEmpty ?
                                     "https://www.google.com/search?q=\(place.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")" :
                                     place.websiteURL
@@ -190,8 +195,10 @@ struct TripDetail: View {
                 .frame(maxHeight: 300)
 
                 Spacer()
-
+                
+                // bottom navigation bar
                 HStack(spacing: 16) {
+                    //edit  button
                     Button {
                         isEditing = true
                     } label: {
@@ -205,6 +212,7 @@ struct TripDetail: View {
                             .cornerRadius(30)
                     }
 
+                    // home button
                     NavigationLink(destination: MainView()) {
                         Image(systemName: "house")
                             .resizable()
@@ -216,6 +224,7 @@ struct TripDetail: View {
                             .cornerRadius(30)
                     }
 
+                    // delete trip button
                     Button {
                         showDeleteConfirmation = true
                     } label: {
@@ -234,6 +243,7 @@ struct TripDetail: View {
             }
             .padding()
         }
+        // alert for deletion
         .alert("Are you sure you want to delete this trip?", isPresented: $showDeleteConfirmation) {
             Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive) {
@@ -242,9 +252,10 @@ struct TripDetail: View {
                 showDeletedAlert = true
             }
         }
+        // alert after delete
         .alert("Trip deleted", isPresented: $showDeletedAlert) {
             Button("OK") {
-                dismiss()
+                navigateToRoot = true
             }
         }
         .alert(weatherUpdateError != nil ? "Actualization error" : "Weather updated", isPresented: $showWeatherAlert) {
@@ -255,6 +266,11 @@ struct TripDetail: View {
             } else {
                 Text("Weather for  \(trip.destination) updated.")
             }
+        }
+        //after delete ok go to main menu
+        .navigationDestination(isPresented: $navigateToRoot) {
+            MainView()
+                .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $isEditing) {
@@ -278,7 +294,6 @@ struct TripDetail: View {
         return formatter.string(from: trip.weather.lastUpdated)
     }
     
-    // Update weather data using existing WeatherService
     // Update weather data using existing WeatherService
     private func updateWeather() async {
         // Prevent multiple concurrent updates

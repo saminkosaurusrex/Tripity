@@ -1,3 +1,5 @@
+//  Service for autocomplete for location search
+//  Hibrid class which is viewModel and service at once
 //
 //  LocationSearchService.swift
 //  Tripity
@@ -42,6 +44,7 @@ class LocationSearchService: NSObject, ObservableObject{
         }
     }
 
+    // location search function
     func searchLocation(from result: LocationResult, completion: @escaping (MKMapItem?) -> Void) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = result.title + " " + result.subtitle
@@ -84,6 +87,8 @@ extension LocationSearchService: MKLocalSearchCompleterDelegate{
     }
 }
 
+
+// Models for mapKit api results
 struct LocationResult: Identifiable, Hashable {
     var id =  UUID()
     var title: String

@@ -14,6 +14,7 @@ struct TripEditView: View {
     var body: some View {
         NavigationStack {
             Form {
+                // date pickers
                 Section(header: Text("Dates")) {
                     DatePicker(
                            "Start Date",
@@ -29,7 +30,8 @@ struct TripEditView: View {
                            displayedComponents: [.date]
                        )
                 }
-
+                
+                // transport selection
                 Section(header: Text("Transport")) {
                     Picker("Transport", selection: $trip.transport) {
                         ForEach(TransportMode.allCases) { mode in
@@ -44,6 +46,7 @@ struct TripEditView: View {
             .navigationTitle("Edit Trip")
             .navigationBarTitleDisplayMode(.inline)
             
+            // is start date changes update weather
             .onChange(of: trip.startDate) { oldValue, newValue in
                 Task {
                     let dateFormatter = DateFormatter()

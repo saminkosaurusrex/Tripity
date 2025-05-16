@@ -1,4 +1,4 @@
-//
+//  API service for places to visit and
 //  PlaceService.swift
 //  Tripity
 //
@@ -9,12 +9,16 @@ import Combine
 
 class PlaceService{
     private var cancellables = Set<AnyCancellable>()
+    // API KEY
     private let apiKey = Secret.placesApiKey
+    // base string for https API request
     private let baseUrl = "https://api.geoapify.com/v2/places?categories=tourism&filter=circle:"
+    
+    //function to fetch places from api and map them to PlacesResponse Model
     func fetchPlaces(forCity city: String, latitude: Double, longitude: Double, radius: Double) -> AnyPublisher<[PlacesResponse.Feature], Error> {
             let urlString = "\(baseUrl)\(longitude),\(latitude),\(radius)&limit=20&apiKey=\(apiKey)"
-        
-        print(urlString)
+        // debug print
+        //print(urlString)
             
             guard let url = URL(string: urlString) else {
                 return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
@@ -33,6 +37,8 @@ class PlaceService{
                 }
                 .eraseToAnyPublisher()
     }
+    
+    // Async version for sink of fetch
     func fetchPlacesAsync(forCity city: String, latitude: Double, longitude: Double, radius: Double) async throws -> [PlacesResponse.Feature] {
             return try await withCheckedThrowingContinuation { continuation in
                 fetchPlaces(forCity: city, latitude: latitude, longitude: longitude, radius: radius)
@@ -45,27 +51,5 @@ class PlaceService{
                     })
                     .store(in: &self.cancellables)
             }
-    }
-}
-
-struct GeoService {
-    private let apiKey = Secret.placesApiKey
-    
-    func geocode(city: String) -> AnyPublisher<GeoResponse, Error> {
-        let urlString = "https://api.geoapify.com/v1/geocode/autocomplete?text=\(city.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&apiKey=\(apiKey)"
-        
-        guard let url = URL(string: urlString) else {
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: GeoResponse.self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
     }
 }
